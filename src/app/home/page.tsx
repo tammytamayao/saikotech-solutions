@@ -2,7 +2,12 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import { ServiceCard } from "../components/serviceCard";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+  MotionConfig,
+} from "framer-motion";
 
 type Project = {
   name: string;
@@ -81,344 +86,525 @@ export default function HomePage() {
     }
   }
 
+  const reduceMotion = useReducedMotion();
+
+  // --- Variants (kept subtle) ---
+  const sectionVariants: Variants = {
+    hidden: reduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 },
+    show: reduceMotion
+      ? { opacity: 1 }
+      : {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.6, ease: "easeOut" },
+        },
+  };
+
+  const containerVariants: Variants = {
+    hidden: {},
+    show: {
+      transition: reduceMotion
+        ? {}
+        : { staggerChildren: 0.08, delayChildren: 0.08 },
+    },
+  };
+
+  const cardVariants: Variants = {
+    hidden: reduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 },
+    show: (i: number) =>
+      reduceMotion
+        ? { opacity: 1 }
+        : {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.45, ease: "easeOut", delay: i * 0.03 },
+          },
+  };
+
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-      {/* Top bar */}
-      <header className="sticky top-0 z-50 border-b border-red-100 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
-          <a href="#top" className="font-semibold tracking-tight">
-            Saiko<span className="text-red-600">Tech</span>{" "}
-            <span className="text-gray-400">Solutions</span>
-          </a>
-
-          <nav className="hidden gap-6 text-sm text-gray-600 md:flex">
-            <a className="hover:text-red-700" href="#about">
-              About
+    <MotionConfig reducedMotion="user">
+      <main className="min-h-screen bg-white text-gray-900">
+        {/* Top bar */}
+        <header className="sticky top-0 z-50 border-b border-red-100 bg-white/90 backdrop-blur">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
+            <a href="#top" className="font-semibold tracking-tight">
+              Saiko<span className="text-red-600">Tech</span>{" "}
+              <span className="text-gray-400">Solutions</span>
             </a>
-            <a className="hover:text-red-700" href="#services">
-              Services
-            </a>
-            <a className="hover:text-red-700" href="#projects">
-              Projects
-            </a>
-          </nav>
 
-          <a
-            href="#contact"
-            className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
-          >
-            Contact Us
-          </a>
-        </div>
-      </header>
+            <nav className="hidden gap-6 text-sm text-gray-600 md:flex">
+              <NavLink href="#about">About</NavLink>
+              <NavLink href="#services">Services</NavLink>
+              <NavLink href="#projects">Projects</NavLink>
+            </nav>
 
-      {/* Hero (full screen) */}
-      <section
-        id="top"
-        className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-white via-red-50 to-white"
-      >
-        <div className="min-h-screen flex items-center">
-          <div className="mx-auto w-full px-4 py-16">
-            <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-              <p className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs text-red-700">
-                Innovation • Automation • Quality
-              </p>
+            <motion.a
+              href="#contact"
+              whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+              className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
+            >
+              Contact Us
+            </motion.a>
+          </div>
+        </header>
 
-              <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-                We build software that’s reliable today — and scalable tomorrow.
-              </h1>
-
-              <p className="mt-4 max-w-2xl text-gray-600">
-                SaikoTech Solutions partners with organizations to design,
-                build, and automate systems that improve operations, reduce
-                manual work, and deliver measurable outcomes.
-              </p>
-
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <a
-                  href="#projects"
-                  className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 transition"
+        {/* Hero (full screen) */}
+        <MotionSection
+          id="top"
+          className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-white via-red-50 to-white"
+          variants={sectionVariants}
+        >
+          <div className="min-h-screen flex items-center">
+            <div className="mx-auto w-full px-4 py-16">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.35 }}
+                className="mx-auto flex max-w-4xl flex-col items-center text-center"
+              >
+                <motion.p
+                  variants={cardVariants}
+                  custom={0}
+                  className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs text-red-700"
                 >
-                  View Projects
-                </a>
-                <a
-                  href="#services"
-                  className="rounded-xl border border-red-200 bg-white px-5 py-3 text-sm font-medium text-gray-900 hover:bg-red-50 transition"
+                  Innovation • Automation • Quality
+                </motion.p>
+
+                <motion.h1
+                  variants={cardVariants}
+                  custom={1}
+                  className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-5xl"
                 >
-                  Explore Services
-                </a>
-              </div>
+                  We build software that’s reliable today — and scalable
+                  tomorrow.
+                </motion.h1>
+
+                <motion.p
+                  variants={cardVariants}
+                  custom={2}
+                  className="mt-4 max-w-2xl text-gray-600"
+                >
+                  SaikoTech Solutions partners with organizations to design,
+                  build, and automate systems that improve operations, reduce
+                  manual work, and deliver measurable outcomes.
+                </motion.p>
+
+                <motion.div
+                  variants={cardVariants}
+                  custom={3}
+                  className="mt-8 flex flex-wrap justify-center gap-3"
+                >
+                  <motion.a
+                    href="#projects"
+                    whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+                    className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 transition"
+                  >
+                    View Projects
+                  </motion.a>
+                  <motion.a
+                    href="#services"
+                    whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+                    className="rounded-xl border border-red-200 bg-white px-5 py-3 text-sm font-medium text-gray-900 hover:bg-red-50 transition"
+                  >
+                    Explore Services
+                  </motion.a>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
-        </div>
-      </section>
+        </MotionSection>
 
-      {/* About (full screen) */}
-      <section
-        id="about"
-        className="w-full min-h-screen border-b border-red-100 bg-white"
-      >
-        <div className="min-h-screen flex items-center">
-          <div className="mx-auto w-full px-6 py-20">
-            <div className="mx-auto max-w-5xl text-center">
-              <h2 className="text-3xl font-semibold tracking-tight">About</h2>
+        {/* About (full screen) */}
+        <MotionSection
+          id="about"
+          className="w-full min-h-screen border-b border-red-100 bg-white"
+          variants={sectionVariants}
+        >
+          <div className="min-h-screen flex items-center">
+            <div className="mx-auto w-full px-6 py-20">
+              <div className="mx-auto max-w-5xl text-center">
+                <h2 className="text-3xl font-semibold tracking-tight">About</h2>
 
-              <p className="mx-auto mt-6 text-gray-600">
-                SaikoTech Solutions is a software development and automation
-                partner based in the Philippines. We help local and
-                international clients build systems that are secure, scalable,
-                and aligned with real-world workflows — with dependable
-                long-term support after launch.
-              </p>
+                <p className="mx-auto mt-6 text-gray-600">
+                  SaikoTech Solutions is a software development and automation
+                  partner based in the Philippines. We help local and
+                  international clients build systems that are secure, scalable,
+                  and aligned with real-world workflows — with dependable
+                  long-term support after launch.
+                </p>
 
-              <p className="mx-auto mt-6 text-gray-600">
-                The name <span className="font-medium">Saiko</span> comes from
-                the Japanese word <span className="italic">Saikō (最高)</span>,
-                meaning “the best.” It reflects our commitment to delivering the
-                highest standards in quality, service, and long-term partnership
-                for every client we work with.
-              </p>
-            </div>
-
-            <div className="mx-auto mt-14 w-full max-w-6xl">
-              <div className="grid gap-6 md:grid-cols-3">
-                <Card title="Customer-First Approach">
-                  We design solutions around your real-world processes,
-                  priorities, and long-term goals.
-                </Card>
-
-                <Card title="Innovation with Purpose">
-                  We apply automation and technology where it creates measurable
-                  impact and operational efficiency.
-                </Card>
-
-                <Card title="Long-Term Partnership">
-                  We don’t disappear after launch — we provide maintenance,
-                  improvements, and reliable after-service support.
-                </Card>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services (full screen) */}
-      <section
-        id="services"
-        className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50"
-      >
-        <div className="min-h-screen flex items-center">
-          <div className="mx-auto w-full max-w-6xl px-4 py-16">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
-                  Services
-                </h2>
-                <p className="mt-3 text-gray-600">
-                  End-to-end development and long-term support — from building
-                  new products to improving, integrating, and maintaining
-                  existing systems.
+                <p className="mx-auto mt-6 text-gray-600">
+                  The name <span className="font-medium">Saiko</span> comes from
+                  the Japanese word <span className="italic">Saikō (最高)</span>
+                  , meaning “the best.” It reflects our commitment to delivering
+                  the highest standards in quality, service, and long-term
+                  partnership for every client we work with.
                 </p>
               </div>
-            </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              <ServiceCard
-                title="Software Development"
-                desc="Web and mobile applications built for performance, security, and long-term maintainability."
-                bullets={[
-                  "Internal tools & dashboards",
-                  "Customer portals & platforms",
-                  "Responsive web + cross-platform mobile",
-                ]}
-              />
-
-              <ServiceCard
-                title="Workflow Automation"
-                desc="Automate processes to reduce manual work and speed up operations — for both new and existing workflows."
-                bullets={[
-                  "Process upgrade & modernization",
-                  "Migration of manual workflows",
-                  "Approvals, tracking, and reporting",
-                ]}
-              />
-
-              <ServiceCard
-                title="Systems Integration"
-                desc="Connect systems and services through reliable APIs — including AI, gateways, analytics, hardware/IoT, and third-party platforms."
-                bullets={[
-                  "API design & integration",
-                  "AI services & data pipelines",
-                  "Gateways, devices, and external services",
-                ]}
-              />
-
-              <ServiceCard
-                title="Maintenance & Support"
-                desc="Ongoing support for new or existing systems — fixes, monitoring, performance tuning, security updates, and enhancements."
-                bullets={[
-                  "Bug fixes & reliability improvements",
-                  "Security patches & monitoring",
-                  "Feature enhancements & scaling",
-                ]}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects (full screen) */}
-      <section
-        id="projects"
-        className="w-full min-h-screen border-b border-red-100 bg-white"
-      >
-        <div className="min-h-screen flex items-center">
-          <div className="mx-auto w-full max-w-6xl px-4 py-14">
-            <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
-              Projects
-            </h2>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {projects.map((p) => (
-                <div
-                  key={p.name}
-                  className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
-                >
-                  <div className="mb-4 overflow-hidden rounded-xl border border-red-100 bg-red-50">
-                    {p.imageSrc ? (
-                      <Image
-                        src={p.imageSrc}
-                        alt={p.imageAlt ?? p.name}
-                        width={1600}
-                        height={1000}
-                        className="h-44 w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-44 items-center justify-center text-sm text-gray-500">
-                        Add screenshot: /public/your-image.png
-                      </div>
-                    )}
-                  </div>
-
-                  <h3 className="text-lg font-semibold">{p.name}</h3>
-                  <p className="mt-2 text-sm text-gray-600">{p.description}</p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs text-red-700"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact (full screen) */}
-      <section
-        id="contact"
-        className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50"
-      >
-        <div className="min-h-screen flex items-center">
-          <div className="mx-auto w-full max-w-6xl px-4 py-16">
-            <div className="mx-auto max-w-3xl text-center">
-              <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
-                Contact Us
-              </h2>
-              <p className="mt-3 text-gray-600">
-                Tell us what you’re building. We’ll reply with the next steps
-                and schedule a call with you.
-              </p>
-            </div>
-
-            <div className="mx-auto mt-10 max-w-3xl">
-              <form
-                onSubmit={onSubmit}
-                className="rounded-2xl border border-red-100 bg-white p-6 shadow-sm"
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.25 }}
+                className="mx-auto mt-14 w-full max-w-6xl"
               >
-                <div className="grid gap-4">
-                  <Field
-                    label="Name"
-                    value={form.name}
-                    onChange={(v) => setForm((f) => ({ ...f, name: v }))}
-                    required
-                  />
-                  <Field
-                    label="Email"
-                    type="email"
-                    value={form.email}
-                    onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-                    required
-                  />
-                  <Field
-                    label="Company (optional)"
-                    value={form.company}
-                    onChange={(v) => setForm((f) => ({ ...f, company: v }))}
-                  />
-                  <div>
-                    <label className="text-sm font-medium">Message</label>
-                    <textarea
-                      className="mt-2 w-full rounded-xl border border-red-100 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-red-200"
-                      rows={5}
-                      value={form.message}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, message: e.target.value }))
-                      }
+                <div className="grid gap-6 md:grid-cols-3">
+                  <MotionCard
+                    title="Customer-First Approach"
+                    variants={cardVariants}
+                    custom={0}
+                  >
+                    We design solutions around your real-world processes,
+                    priorities, and long-term goals.
+                  </MotionCard>
+
+                  <MotionCard
+                    title="Innovation with Purpose"
+                    variants={cardVariants}
+                    custom={1}
+                  >
+                    We apply automation and technology where it creates
+                    measurable impact and operational efficiency.
+                  </MotionCard>
+
+                  <MotionCard
+                    title="Long-Term Partnership"
+                    variants={cardVariants}
+                    custom={2}
+                  >
+                    We don’t disappear after launch — we provide maintenance,
+                    improvements, and reliable after-service support.
+                  </MotionCard>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </MotionSection>
+
+        {/* Services (full screen) */}
+        <MotionSection
+          id="services"
+          className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50"
+          variants={sectionVariants}
+        >
+          <div className="min-h-screen flex items-center">
+            <div className="mx-auto w-full max-w-6xl px-4 py-16">
+              <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
+                    Services
+                  </h2>
+                  <p className="mt-3 text-gray-600">
+                    End-to-end development and long-term support — from building
+                    new products to improving, integrating, and maintaining
+                    existing systems.
+                  </p>
+                </div>
+              </div>
+
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+                className="mt-10 grid gap-5 md:grid-cols-2"
+              >
+                <ServiceCard
+                  title="Software Development"
+                  desc="Web and mobile applications built for performance, security, and long-term maintainability."
+                  bullets={[
+                    "Internal tools & dashboards",
+                    "Customer portals & platforms",
+                    "Responsive web + cross-platform mobile",
+                  ]}
+                  variants={cardVariants}
+                  custom={0}
+                />
+
+                <ServiceCard
+                  title="Workflow Automation"
+                  desc="Automate processes to reduce manual work and speed up operations — for both new and existing workflows."
+                  bullets={[
+                    "Process upgrade & modernization",
+                    "Migration of manual workflows",
+                    "Approvals, tracking, and reporting",
+                  ]}
+                  variants={cardVariants}
+                  custom={1}
+                />
+
+                <ServiceCard
+                  title="Systems Integration"
+                  desc="Connect systems and services through reliable APIs — including AI, gateways, analytics, hardware/IoT, and third-party platforms."
+                  bullets={[
+                    "API design & integration",
+                    "AI services & data pipelines",
+                    "Gateways, devices, and external services",
+                  ]}
+                  variants={cardVariants}
+                  custom={2}
+                />
+
+                <ServiceCard
+                  title="Maintenance & Support"
+                  desc="Ongoing support for new or existing systems — fixes, monitoring, performance tuning, security updates, and enhancements."
+                  bullets={[
+                    "Bug fixes & reliability improvements",
+                    "Security patches & monitoring",
+                    "Feature enhancements & scaling",
+                  ]}
+                  variants={cardVariants}
+                  custom={3}
+                />
+              </motion.div>
+            </div>
+          </div>
+        </MotionSection>
+
+        {/* Projects (full screen) */}
+        <MotionSection
+          id="projects"
+          className="w-full min-h-screen border-b border-red-100 bg-white"
+          variants={sectionVariants}
+        >
+          <div className="min-h-screen flex items-center">
+            <div className="mx-auto w-full max-w-6xl px-4 py-14">
+              <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
+                Projects
+              </h2>
+
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+                className="mt-8 grid gap-4 md:grid-cols-3"
+              >
+                {projects.map((p, idx) => (
+                  <motion.div
+                    key={p.name}
+                    variants={cardVariants}
+                    custom={idx}
+                    whileHover={reduceMotion ? undefined : { y: -4 }}
+                    className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
+                  >
+                    <div className="mb-4 overflow-hidden rounded-xl border border-red-100 bg-red-50">
+                      {p.imageSrc ? (
+                        <div className="relative h-44 w-full">
+                          <motion.div
+                            whileHover={
+                              reduceMotion ? undefined : { scale: 1.04 }
+                            }
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="h-44 w-full"
+                          >
+                            <Image
+                              src={p.imageSrc}
+                              alt={p.imageAlt ?? p.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </motion.div>
+                        </div>
+                      ) : (
+                        <div className="flex h-44 items-center justify-center text-sm text-gray-500">
+                          Add screenshot: /public/your-image.png
+                        </div>
+                      )}
+                    </div>
+
+                    <h3 className="text-lg font-semibold">{p.name}</h3>
+                    <p className="mt-2 text-sm text-gray-600">
+                      {p.description}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs text-red-700"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </MotionSection>
+
+        {/* Contact (full screen) */}
+        <MotionSection
+          id="contact"
+          className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50"
+          variants={sectionVariants}
+        >
+          <div className="min-h-screen flex items-center">
+            <div className="mx-auto w-full max-w-6xl px-4 py-16">
+              <div className="mx-auto max-w-3xl text-center">
+                <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
+                  Contact Us
+                </h2>
+                <p className="mt-3 text-gray-600">
+                  Tell us what you’re building. We’ll reply with the next steps
+                  and schedule a call with you.
+                </p>
+              </div>
+
+              <div className="mx-auto mt-10 max-w-3xl">
+                <motion.form
+                  initial={reduceMotion ? undefined : { opacity: 0, y: 14 }}
+                  whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  onSubmit={onSubmit}
+                  className="rounded-2xl border border-red-100 bg-white p-6 shadow-sm"
+                >
+                  <div className="grid gap-4">
+                    <Field
+                      label="Name"
+                      value={form.name}
+                      onChange={(v) => setForm((f) => ({ ...f, name: v }))}
                       required
                     />
+                    <Field
+                      label="Email"
+                      type="email"
+                      value={form.email}
+                      onChange={(v) => setForm((f) => ({ ...f, email: v }))}
+                      required
+                    />
+                    <Field
+                      label="Company (optional)"
+                      value={form.company}
+                      onChange={(v) => setForm((f) => ({ ...f, company: v }))}
+                    />
+                    <div>
+                      <label className="text-sm font-medium">Message</label>
+                      <textarea
+                        className="mt-2 w-full rounded-xl border border-red-100 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-red-200"
+                        rows={5}
+                        value={form.message}
+                        onChange={(e) =>
+                          setForm((f) => ({ ...f, message: e.target.value }))
+                        }
+                        required
+                      />
+                    </div>
+
+                    <motion.button
+                      disabled={status === "sending"}
+                      whileHover={reduceMotion ? undefined : { scale: 1.01 }}
+                      whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+                      className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-60 transition"
+                    >
+                      {status === "sending" ? "Sending..." : "Send Message"}
+                    </motion.button>
+
+                    {status === "sent" && (
+                      <p className="text-sm text-emerald-700">
+                        Message sent! We’ll get back to you soon.
+                      </p>
+                    )}
+                    {status === "error" && (
+                      <p className="text-sm text-red-700">
+                        {errMsg ?? "Failed to send. Please try again."}
+                      </p>
+                    )}
                   </div>
-
-                  <button
-                    disabled={status === "sending"}
-                    className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-60 transition"
-                  >
-                    {status === "sending" ? "Sending..." : "Send Message"}
-                  </button>
-
-                  {status === "sent" && (
-                    <p className="text-sm text-emerald-700">
-                      Message sent! We’ll get back to you soon.
-                    </p>
-                  )}
-                  {status === "error" && (
-                    <p className="text-sm text-red-700">
-                      {errMsg ?? "Failed to send. Please try again."}
-                    </p>
-                  )}
-                </div>
-              </form>
+                </motion.form>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-      {/* Global Footer (fixed placement) */}
-      <footer className="border-t border-red-100 bg-white">
-        <div className="mx-auto w-full max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} SaikoTech Solutions. All rights reserved.
-        </div>
-      </footer>
-    </main>
+        </MotionSection>
+
+        {/* Global Footer */}
+        <footer className="border-t border-red-100 bg-white">
+          <div className="mx-auto w-full max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
+            © {new Date().getFullYear()} SaikoTech Solutions. All rights
+            reserved.
+          </div>
+        </footer>
+      </main>
+    </MotionConfig>
   );
 }
 
-function Card({
-  title,
+function NavLink({
+  href,
   children,
 }: {
-  title: string;
+  href: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition">
+    <a
+      href={href}
+      className="relative text-sm text-gray-600 hover:text-red-700 transition"
+    >
+      <span className="relative">
+        {children}
+        <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full" />
+      </span>
+    </a>
+  );
+}
+
+function MotionSection({
+  id,
+  className,
+  variants,
+  children,
+}: {
+  id: string;
+  className: string;
+  variants: Variants;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.section
+      id={id}
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={variants}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+function MotionCard({
+  title,
+  children,
+  variants,
+  custom,
+}: {
+  title: string;
+  children: React.ReactNode;
+  variants: Variants;
+  custom: number;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      variants={variants}
+      custom={custom}
+      whileHover={reduceMotion ? undefined : { y: -3 }}
+      className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
+    >
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="mt-2 text-sm text-gray-600">{children}</p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -448,5 +634,42 @@ function Field({
         required={required}
       />
     </div>
+  );
+}
+
+function ServiceCard({
+  title,
+  desc,
+  bullets,
+  variants,
+  custom,
+}: {
+  title: string;
+  desc: string;
+  bullets: string[];
+  variants: Variants;
+  custom: number;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      variants={variants}
+      custom={custom}
+      whileHover={reduceMotion ? undefined : { y: -3 }}
+      className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
+    >
+      <h3 className="text-lg font-semibold">{title}</h3>
+      <p className="mt-2 text-sm text-gray-600">{desc}</p>
+
+      <ul className="mt-4 space-y-2 text-sm text-gray-700">
+        {bullets.map((b) => (
+          <li key={b} className="flex gap-2">
+            <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-red-600" />
+            <span>{b}</span>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
   );
 }
