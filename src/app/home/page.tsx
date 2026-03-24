@@ -39,7 +39,7 @@ export default function HomePage() {
       {
         name: "Green Chain+ (Mobile App)",
         description:
-          "An e-commerce marketplace connecting farmers, store owners, and consumers — integrated with third-party route optimization APIs and AI-based quality detection linked to pricing.",
+          "An e-commerce marketplace integrated with third-party route optimization APIs and AI-based quality detection linked to pricing.",
         tags: ["E-Commerce", "AI", "API", "Logistics"],
         imageSrc: "/green-chain-plus.jpg",
         imageAlt: "Screenshot of Green Chain+ mobile e-commerce app",
@@ -88,7 +88,6 @@ export default function HomePage() {
 
   const reduceMotion = useReducedMotion();
 
-  // --- Variants (kept subtle) ---
   const sectionVariants: Variants = {
     hidden: reduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 },
     show: reduceMotion
@@ -123,16 +122,16 @@ export default function HomePage() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <main className="min-h-screen bg-white text-gray-900">
+      <main className="min-h-screen bg-white text-gray-800">
         {/* Top bar */}
         <header className="sticky top-0 z-50 border-b border-red-100 bg-white/90 backdrop-blur">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
-            <a href="#top" className="font-semibold tracking-tight">
+            <a href="#top" className="font-semibold tracking-[-0.01em]">
               Saiko<span className="text-red-600">Tech</span>{" "}
               <span className="text-gray-400">Solutions</span>
             </a>
 
-            <nav className="hidden gap-6 text-sm text-gray-600 md:flex">
+            <nav className="hidden gap-6 text-sm text-gray-500 md:flex">
               <NavLink href="#about">About</NavLink>
               <NavLink href="#services">Services</NavLink>
               <NavLink href="#projects">Projects</NavLink>
@@ -142,7 +141,7 @@ export default function HomePage() {
               href="#contact"
               whileHover={reduceMotion ? undefined : { scale: 1.03 }}
               whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-              className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
+              className="rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold tracking-[0.01em] text-white transition hover:bg-red-700"
             >
               Contact Us
             </motion.a>
@@ -155,7 +154,7 @@ export default function HomePage() {
           className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-white via-red-50 to-white"
           variants={sectionVariants}
         >
-          <div className="min-h-screen flex items-center">
+          <div className="flex min-h-screen items-center">
             <div className="mx-auto w-full px-4 py-16">
               <motion.div
                 variants={containerVariants}
@@ -167,7 +166,7 @@ export default function HomePage() {
                 <motion.p
                   variants={cardVariants}
                   custom={0}
-                  className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs text-red-700"
+                  className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-[11px] font-medium tracking-wide text-red-700"
                 >
                   Innovation • Automation • Quality
                 </motion.p>
@@ -175,21 +174,21 @@ export default function HomePage() {
                 <motion.h1
                   variants={cardVariants}
                   custom={1}
-                  className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-5xl"
+                  className="mt-4 text-h1 font-semibold text-gray-800"
                 >
                   We build software that’s reliable today — and scalable
                   tomorrow.
                 </motion.h1>
 
-                <motion.p
+                {/* <motion.p
                   variants={cardVariants}
                   custom={2}
-                  className="mt-4 max-w-2xl text-gray-600"
+                  className="mt-4 max-w-2xl text-body text-gray-500"
                 >
                   SaikoTech Solutions partners with organizations to design,
                   build, and automate systems that improve operations, reduce
                   manual work, and deliver measurable outcomes.
-                </motion.p>
+                </motion.p> */}
 
                 <motion.div
                   variants={cardVariants}
@@ -200,7 +199,7 @@ export default function HomePage() {
                     href="#projects"
                     whileHover={reduceMotion ? undefined : { scale: 1.03 }}
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                    className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 transition"
+                    className="rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold tracking-[0.01em] text-white transition hover:bg-red-700"
                   >
                     View Projects
                   </motion.a>
@@ -208,7 +207,7 @@ export default function HomePage() {
                     href="#services"
                     whileHover={reduceMotion ? undefined : { scale: 1.03 }}
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                    className="rounded-xl border border-red-200 bg-white px-5 py-3 text-sm font-medium text-gray-900 hover:bg-red-50 transition"
+                    className="rounded-xl border border-red-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition hover:bg-red-50"
                   >
                     Explore Services
                   </motion.a>
@@ -224,25 +223,21 @@ export default function HomePage() {
           className="w-full min-h-screen border-b border-red-100 bg-white"
           variants={sectionVariants}
         >
-          <div className="min-h-screen flex items-center">
+          <div className="flex min-h-screen items-center">
             <div className="mx-auto w-full px-6 py-20">
               <div className="mx-auto max-w-5xl text-center">
-                <h2 className="text-3xl font-semibold tracking-tight">About</h2>
+                <h2 className="text-h2 font-semibold text-gray-800">About</h2>
 
-                <p className="mx-auto mt-6 text-gray-600">
-                  SaikoTech Solutions is a software development and automation
-                  partner based in the Philippines. We help local and
-                  international clients build systems that are secure, scalable,
-                  and aligned with real-world workflows — with dependable
-                  long-term support after launch.
-                </p>
-
-                <p className="mx-auto mt-6 text-gray-600">
-                  The name <span className="font-medium">Saiko</span> comes from
-                  the Japanese word <span className="italic">Saikō (最高)</span>
-                  , meaning “the best.” It reflects our commitment to delivering
-                  the highest standards in quality, service, and long-term
-                  partnership for every client we work with.
+                <p className="mx-auto mt-6 text-body text-gray-500">
+                  The name{" "}
+                  <span className="font-medium text-gray-700">Saiko</span> comes
+                  from the Japanese word{" "}
+                  <span className="italic">Saikō (最高)</span>, meaning “the
+                  best.” It reflects our commitment to delivering the highest
+                  standards in quality, service, and long-term partnership. We
+                  help companies design and build systems that improve
+                  operations, reduce manual work, and deliver measurable
+                  outcomes.
                 </p>
               </div>
 
@@ -292,14 +287,14 @@ export default function HomePage() {
           className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50"
           variants={sectionVariants}
         >
-          <div className="min-h-screen flex items-center">
+          <div className="flex min-h-screen items-center">
             <div className="mx-auto w-full max-w-6xl px-4 py-16">
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
+                  <h2 className="text-h2 font-semibold text-gray-800">
                     Services
                   </h2>
-                  <p className="mt-3 text-gray-600">
+                  <p className="mt-3 text-body text-gray-500">
                     End-to-end development and long-term support — from building
                     new products to improving, integrating, and maintaining
                     existing systems.
@@ -372,11 +367,9 @@ export default function HomePage() {
           className="w-full min-h-screen border-b border-red-100 bg-white"
           variants={sectionVariants}
         >
-          <div className="min-h-screen flex items-center">
+          <div className="flex min-h-screen items-center">
             <div className="mx-auto w-full max-w-6xl px-4 py-14">
-              <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
-                Projects
-              </h2>
+              <h2 className="text-h2 font-semibold text-gray-800">Projects</h2>
 
               <motion.div
                 variants={containerVariants}
@@ -391,7 +384,7 @@ export default function HomePage() {
                     variants={cardVariants}
                     custom={idx}
                     whileHover={reduceMotion ? undefined : { y: -4 }}
-                    className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
+                    className="rounded-2xl border border-red-100 bg-white p-6 transition hover:border-red-300 hover:shadow-lg"
                   >
                     <div className="mb-4 overflow-hidden rounded-xl border border-red-100 bg-red-50">
                       {p.imageSrc ? (
@@ -418,8 +411,10 @@ export default function HomePage() {
                       )}
                     </div>
 
-                    <h3 className="text-lg font-semibold">{p.name}</h3>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <h3 className="text-h3 font-semibold text-gray-800">
+                      {p.name}
+                    </h3>
+                    <p className="mt-2 text-body text-gray-500">
                       {p.description}
                     </p>
 
@@ -427,7 +422,7 @@ export default function HomePage() {
                       {p.tags.map((t) => (
                         <span
                           key={t}
-                          className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs text-red-700"
+                          className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-[11px] font-medium tracking-wide text-red-700"
                         >
                           {t}
                         </span>
@@ -446,13 +441,13 @@ export default function HomePage() {
           className="w-full min-h-screen border-b border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50"
           variants={sectionVariants}
         >
-          <div className="min-h-screen flex items-center">
+          <div className="flex min-h-screen items-center">
             <div className="mx-auto w-full max-w-6xl px-4 py-16">
               <div className="mx-auto max-w-3xl text-center">
-                <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
+                <h2 className="text-h2 font-semibold text-gray-800">
                   Contact Us
                 </h2>
-                <p className="mt-3 text-gray-600">
+                <p className="mt-3 text-body text-gray-500">
                   Tell us what you’re building. We’ll reply with the next steps
                   and schedule a call with you.
                 </p>
@@ -487,9 +482,11 @@ export default function HomePage() {
                       onChange={(v) => setForm((f) => ({ ...f, company: v }))}
                     />
                     <div>
-                      <label className="text-sm font-medium">Message</label>
+                      <label className="text-sm font-medium text-gray-800">
+                        Message
+                      </label>
                       <textarea
-                        className="mt-2 w-full rounded-xl border border-red-100 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-red-200"
+                        className="mt-2 w-full rounded-xl border border-red-100 px-3 py-2 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-red-200"
                         rows={5}
                         value={form.message}
                         onChange={(e) =>
@@ -503,7 +500,7 @@ export default function HomePage() {
                       disabled={status === "sending"}
                       whileHover={reduceMotion ? undefined : { scale: 1.01 }}
                       whileTap={reduceMotion ? undefined : { scale: 0.99 }}
-                      className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-60 transition"
+                      className="rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold tracking-[0.01em] text-white transition hover:bg-red-700 disabled:opacity-60"
                     >
                       {status === "sending" ? "Sending..." : "Send Message"}
                     </motion.button>
@@ -547,7 +544,7 @@ function NavLink({
   return (
     <a
       href={href}
-      className="relative text-sm text-gray-600 hover:text-red-700 transition"
+      className="relative text-sm text-gray-500 transition hover:text-red-700"
     >
       <span className="relative">
         {children}
@@ -600,10 +597,10 @@ function MotionCard({
       variants={variants}
       custom={custom}
       whileHover={reduceMotion ? undefined : { y: -3 }}
-      className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
+      className="rounded-2xl border border-red-100 bg-white p-6 transition hover:border-red-300 hover:shadow-lg"
     >
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-gray-600">{children}</p>
+      <h3 className="text-h3 font-semibold text-gray-800">{title}</h3>
+      <p className="mt-2 text-body text-gray-500">{children}</p>
     </motion.div>
   );
 }
@@ -623,11 +620,11 @@ function Field({
 }) {
   return (
     <div>
-      <label className="text-sm font-medium">
+      <label className="text-sm font-medium text-gray-800">
         {label} {required ? <span className="text-red-600">*</span> : null}
       </label>
       <input
-        className="mt-2 w-full rounded-xl border border-red-100 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-red-200"
+        className="mt-2 w-full rounded-xl border border-red-100 px-3 py-2 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-red-200"
         value={value}
         type={type}
         onChange={(e) => onChange(e.target.value)}
@@ -657,10 +654,10 @@ function ServiceCard({
       variants={variants}
       custom={custom}
       whileHover={reduceMotion ? undefined : { y: -3 }}
-      className="rounded-2xl border border-red-100 bg-white p-6 hover:border-red-300 hover:shadow-lg transition"
+      className="rounded-2xl border border-red-100 bg-white p-6 transition hover:border-red-300 hover:shadow-lg"
     >
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-gray-600">{desc}</p>
+      <h3 className="text-h3 font-semibold text-gray-800">{title}</h3>
+      <p className="mt-2 text-body text-gray-500">{desc}</p>
 
       <ul className="mt-4 space-y-2 text-sm text-gray-700">
         {bullets.map((b) => (
